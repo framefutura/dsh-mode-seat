@@ -1,0 +1,9 @@
+# 组合包 patch：profile 通过 dsh.profile.bundles 列出本包时应用这一层。
+# 插件行按“包名”引用，Node 的模块解析能找到已安装的代码。
+#
+# 这一行同时接通两半：宿主半（index.js，空 apply）与浏览器半。
+# 浏览器半不需要额外行——宿主 clientModules 扫描本包的 package.json，
+# 看到 dsh.client 声明与 exports['./client'] 后，就把 dist/client.js 组进 Web 启动图。
+- insert:
+    - id: mode-seat
+      name: 'dsh-mode-seat'

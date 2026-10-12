@@ -1,0 +1,56 @@
+{
+  "name": "dsh-mode-seat",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A persistent Agent-preset (mode) selector docked in the composer input bar: switch the mode for new tasks, and set the new-task default from any running session. · 对话框常驻 Agent 模式选择条：新任务直接切换模式，运行中的会话可设新任务默认。",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "agent-preset",
+    "mode-selector",
+    "composer"
+  ],
+  "author": "framefutura",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/framefutura/dsh-mode-seat.git"
+  },
+  "homepage": "https://github.com/framefutura/dsh-mode-seat#readme",
+  "bugs": {
+    "url": "https://github.com/framefutura/dsh-mode-seat/issues"
+  },
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./client": {
+      "default": "./dist/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "dist/client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.4"
+  }
+}
