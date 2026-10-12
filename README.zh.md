@@ -26,7 +26,7 @@ DeepSeek Harness 对话框常驻的 **Agent 预设（模式）选择条**，位�
 ### 2. 直接从 GitHub 安装
 
 ```sh
-dsh plugin --profile web add github:framefutura/dsh-mode-seat
+dsh plugin --profile desktop add github:framefutura/dsh-mode-seat
 ```
 
 ### 3. 手动安装（开发 / 离线）

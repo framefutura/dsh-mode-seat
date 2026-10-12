@@ -26,7 +26,7 @@ If you have the [dsh-market](https://github.com/dsh-market/dsh-market) plugin en
 ### 2. Directly from GitHub
 
 ```sh
-dsh plugin --profile web add github:framefutura/dsh-mode-seat
+dsh plugin --profile desktop add github:framefutura/dsh-mode-seat
 ```
 
 ### 3. Manually (dev / offline)
