@@ -14,13 +14,29 @@ The default is stored in the same settings namespace the built-in UI uses (`agen
 
 ## Install
 
+There are three ways to install the plugin.
+
+### 1. From the plugin market (easiest)
+
+If you have the [dsh-market](https://github.com/dsh-market/dsh-market) plugin enabled: Settings → **Plugin Market** → search **"mode-seat"** → **Install**.
+
+> If the plugin is not listed in the market yet, it will be as soon as the awesome-dsh-plugin catalog refreshes (it is refreshed daily by CI).
+
+### 2. Directly from GitHub
+
 ```sh
 dsh plugin --profile web add github:framefutura/dsh-mode-seat
 ```
 
-Or install it from the [dsh-market](https://github.com/dsh-market/dsh-market) plugin (Settings → Plugin Market → search "mode-seat").
+### 3. Manually (dev / offline)
 
-After a full restart of the harness (client bundles are composed at boot and cached), open any conversation and find the mode chip at the right end of the input bar, next to the model selector.
+1. Copy the `dsh-mode-seat` package folder into your profile's `node_modules` (e.g. `~/.dsh/profiles/desktop/node_modules/dsh-mode-seat/`).
+2. Add `"dsh-mode-seat"` to the `dsh.profile.bundles` array in the profile `package.json`.
+3. Restart the harness.
+
+### After installing
+
+A full restart of the harness is required (client bundles are composed at boot and cached). Then open any conversation and find the mode chip at the right end of the input bar, next to the model selector.
 
 ## Usage
 

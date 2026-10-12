@@ -14,13 +14,29 @@ DeepSeek Harness 对话框常驻的 **Agent 预设（模式）选择条**，位�
 
 ## 安装
 
+三种方式任选。
+
+### 1. 从插件市场安装（最简单）
+
+已启用 [dsh-market](https://github.com/dsh-market/dsh-market) 插件时：设置 → **插件市场** → 搜索 **"mode-seat"** → **安装**。
+
+> 如果市场里暂时搜不到，说明目录尚未刷新——awesome-dsh-plugin 目录由 CI 每天刷新，刷新后即可搜到。
+
+### 2. 直接从 GitHub 安装
+
 ```sh
 dsh plugin --profile web add github:framefutura/dsh-mode-seat
 ```
 
-或从 [dsh-market](https://github.com/dsh-market/dsh-market) 插件安装（设置 → 插件市场 → 搜索 "mode-seat"）。
+### 3. 手动安装（开发 / 离线）
 
-重启 Harness（客户端 bundle 在启动期组合并缓存，必须完整重启），打开任意对话即可在输入栏尾部、模型选择器旁看到模式胶囊。
+1. 把 `dsh-mode-seat` 包目录复制到 profile 的 `node_modules` 下（例如 `~/.dsh/profiles/desktop/node_modules/dsh-mode-seat/`）。
+2. 在 profile 的 `package.json` 的 `dsh.profile.bundles` 数组中添加 `"dsh-mode-seat"`。
+3. 重启 Harness。
+
+### 安装后
+
+客户端 bundle 在启动期组合并缓存，需要**完整重启** Harness。重启后打开任意对话，即可在输入栏尾部、模型选择器旁看到模式胶囊。
 
 ## 使用
 
