@@ -2,11 +2,12 @@
  * dsh-mode-seat — 浏览器半
  *
  * 在对话输入栏尾部（conversation.input.right）注册常驻的 “Agent 预设” 选择条：
- *   - 新任务（blank 会话）点击预设立即切换模式（宿主负责重组合成，并写会话事件）；
- *   - 已开始（非 blank）的会话点击预设无法切换（宿主拒绝），改为直接设为
- *     “新任务默认”并提示，让选择始终可用；
- *   - 默认值写入 settings 命名空间 agent-preset-registry 的 selectedDefault，
- *     与内置 “New task default” 语义一致，新会话合成时被读取。
+ *   - 新任务（blank 会话）点击预设立即切换模式（宿主负责重组合成，并写会话事件），
+ *     每任务独立，不影响其他任务；
+ *   - 已开始（非 blank）的会话模式固定（宿主拒绝切换），点击预设仅提示锁定，
+ *     不会修改任何默认值，避免一个任务改动影响其他任务；
+ *   - 菜单底部的「设为新任务默认」是显式动作，才写入 settings 命名空间
+ *     agent-preset-registry 的 selectedDefault，与新会话合成语义一致。
  *
  * 加载格式：window.__ModuleLoader__.load({id, factory})，factory 收到 require；
  * 依赖从平台 seed 解析（react / @deepseek-ai/dsh-client-store /
@@ -46,7 +47,7 @@ window.__ModuleLoader__.load({
       setDefaultDone: "已将「{name}」设为新任务默认",
       noDescription: "暂无描述。",
       switchRefused: "无法切换到「{name}」：{reason}",
-      runningSetDefault: "任务已开始，无法切换；已将「{name}」设为新任务默认",
+      runningLocked: "任务已开始，本任务的模式已固定，无法切换；每个任务独立选择，不受其他任务影响。如需更改新任务默认，请使用下方「设为新任务默认」。",
       presetStandardName: "标准模式",
       presetStandardDescription: "处理代码、文件和资料，适合大多数任务。Agent 会按需使用检索、编辑和终端等工具。",
       presetPtcName: "PTC 模式",
@@ -64,7 +65,7 @@ window.__ModuleLoader__.load({
       setDefaultDone: "Set “{name}” as the default for new tasks",
       noDescription: "No description.",
       switchRefused: "Could not switch to {name}: {reason}",
-      runningSetDefault: "This task already started; preset cannot be switched. Set “{name}” as the default for new tasks instead.",
+      runningLocked: "This task already started and its mode is fixed; it cannot be switched. Each task chooses its mode independently. To change the default for new tasks, use “Set as new task default” below.",
       presetStandardName: "Standard mode",
       presetStandardDescription: "Work with code, files, and information. Suitable for most tasks, with search, editing, terminal commands, and other tools available as needed.",
       presetPtcName: "PTC mode",
@@ -123,7 +124,7 @@ window.__ModuleLoader__.load({
       return "unknown error";
     }
 
-    /** 常驻选择条（输入栏尾部）：新任务点击切换，已开始会话点击设为新任务默认。 */
+    /** 常驻选择条（输入栏尾部）：新任务点击切换（每任务独立），已开始会话仅提示锁定。 */
     function ModeSeatDockImpl({ useRoster, useSessionSummary, select, setDefault, t, sessionId }) {
       var roster = useRoster(function (s) { return s; });
       var summary = useSessionSummary(function (s) {
@@ -184,13 +185,8 @@ window.__ModuleLoader__.load({
         var picked = options.find(function (o) { return o.id === id; });
         var name = picked === void 0 ? id : displayOf(picked, t).name;
         if (!blank) {
-          // 已开始的会话无法切换预设：直接把该项设为新任务默认，选择始终可用。
-          setBusy(true);
-          setDefault(id).then(function (refusal) {
-            setBusy(false);
-            if (refusal === void 0) showToast(t("runningSetDefault", { name: name }));
-            else showToast(String(refusal));
-          });
+          // 已开始的会话模式固定（宿主拒绝切换）：仅提示，不写全局默认，避免影响其他任务。
+          showToast(t("runningLocked"));
           return;
         }
         setBusy(true);

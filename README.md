@@ -7,7 +7,8 @@ A persistent **Agent-preset (mode) selector** docked inside the DeepSeek Harness
 ## What it does
 
 - **New task (blank session)** — click the chip, pick a mode: the preset applies to this new task immediately (the host recomposes with the chosen agent preset).
-- **Already started session** — the current mode is shown read-only; picking a different entry can't switch a running task, so the plugin instead sets that mode as the **new-task default** and tells you so.
+- **Already started session** — the current mode is shown read-only; a running task keeps the mode it started with, so picking another entry cannot switch it and does **not** change anything globally. The chip just explains that the mode is fixed for this task (each task chooses its mode independently).
+- **Set as new task default** — at the bottom of the menu there is an explicit action that writes the global default for *future* new tasks (`agent-preset-registry` / `selectedDefault`). Only that explicit action affects other tasks; switching a mode inside a new task never does.
 - **Works regardless of the Developer Tools gate** — the built-in agent-preset seat only renders when `developerTools: true` (it hides the trajectory view / code diff clutter too). This plugin is a standalone chip that does not need that switch and does not bring the clutter back.
 
 The default is stored in the same settings namespace the built-in UI uses (`agent-preset-registry` / `selectedDefault`), so new sessions pick it up with the exact same semantics.
@@ -41,8 +42,9 @@ A full restart of the harness is required (client bundles are composed at boot a
 ## Usage
 
 1. Click the chip (e.g. `标准模式` / `Standard mode`).
-2. In a **new/blank task** — choosing an entry switches that task's preset.
-3. In a **started task** — choosing an entry sets it as the new-task default (a toast explains this), because a running session keeps the composition it began with.
+2. In a **new/blank task** — choosing an entry switches *that* task's preset only (each task is independent).
+3. In a **started task** — the mode is fixed (a running session keeps the composition it began with); choosing an entry just explains this and changes nothing globally.
+4. To change the default for **future** new tasks, use the menu's **"Set as new task default"** action at the bottom.
 
 ## Development
 
