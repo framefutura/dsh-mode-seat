@@ -13,6 +13,12 @@ A persistent **Agent-preset (mode) selector** docked inside the DeepSeek Harness
 
 The default is stored in the same settings namespace the built-in UI uses (`agent-preset-registry` / `selectedDefault`), so new sessions pick it up with the exact same semantics.
 
+## Compatibility
+
+- **DeepSeek Harness 0.2.x** — built and verified against `@deepseek-ai/dsh-desktop` 0.2.2-rc.1 (cordis `~4.1.0`). It reads `ctx.remote.agentPresets.{list,select}`, `ctx.remote.settings.update("agent-preset-registry", …)`, `ctx.sessions.list` and the `conversation.input.right` slot — all still current.
+- Since 0.2.2 the host also ships its own preset surfaces (`conversation.hero.agentPreset`, `conversation.session.header.actions`). They do not occupy `conversation.input.right`, so this chip sits beside them instead of replacing them: same settings namespace, one place to change the default.
+- No `engines.dsh` field on purpose: DSH versions are prereleases (`0.2.2-rc.1`), and a plain `>=0.2.0` range would refuse to install exactly those builds (semver excludes a prerelease unless the same `major.minor.patch` appears in the range).
+
 ## Install
 
 There are three ways to install the plugin.

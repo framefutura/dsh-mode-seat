@@ -13,6 +13,12 @@ DeepSeek Harness 对话框常驻的 **Agent 预设（模式）选择条**，位�
 
 默认值写入与内置一致的设置命名空间（`agent-preset-registry` / `selectedDefault`），新会话合成时语义完全相同。
 
+## 兼容性
+
+- **DeepSeek Harness 0.2.x**——针对 `@deepseek-ai/dsh-desktop` 0.2.2-rc.1（cordis `~4.1.0`）验证。依赖面为 `ctx.remote.agentPresets.{list,select}`、`ctx.remote.settings.update("agent-preset-registry", …)`、`ctx.sessions.list` 与 `conversation.input.right` 插槽，均为当前接口。
+- 0.2.2 起宿主自带预设界面（`conversation.hero.agentPreset`、`conversation.session.header.actions`），但不占 `conversation.input.right`，因此本胶囊是并排共存而非替代：共用同一设置命名空间，默认值只有一处来源。
+- 刻意不写 `engines.dsh`：DSH 版本是预发布号（`0.2.2-rc.1`），普通的 `>=0.2.0` 区间会恰好拒绝这些构建（semver 只有在区间里出现相同 `major.minor.patch` 时才认可预发布号）。
+
 ## 安装
 
 三种方式任选。

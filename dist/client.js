@@ -29,6 +29,7 @@ window.__ModuleLoader__.load({
 
     var SETTINGS_NS = "agent-preset-registry";
     var SET_DEFAULT_ID = "__modeSeatSetDefault";
+    var LOCKED = "__modeSeatLocked";
     var CSS_TAG = "dsh-mode-seat/mode-seat.css";
     var NS = "modeSeat";
 
@@ -119,6 +120,9 @@ window.__ModuleLoader__.load({
       var result = await ctx.remote.agentPresets.select(sessionId, id);
       if (result.ok) return void 0;
       var err = result.error;
+      // 宿主拒绝切换时抛 RemoteError（0.2.x 起用稳定错误码定位原因），
+      // 码命中就交给本地词条，不回显宿主内部的英文句子。
+      if (err !== void 0 && err.code === "agent-preset/locked") return LOCKED;
       if (err !== void 0 && err.details !== void 0 && typeof err.details.reason === "string") return err.details.reason;
       if (err !== void 0 && typeof err.message === "string") return err.message;
       return "unknown error";
@@ -192,7 +196,9 @@ window.__ModuleLoader__.load({
         setBusy(true);
         select(id).then(function (refusal) {
           setBusy(false);
-          if (refusal !== void 0) showToast(t("switchRefused", { name: name, reason: String(refusal) }));
+          if (refusal === void 0) return;
+          // 宿主的锁定拒绝走本地词条；其余原因保留宿主给出的说明。
+          showToast(refusal === LOCKED ? t("runningLocked") : t("switchRefused", { name: name, reason: String(refusal) }));
         });
       };
 

@@ -1,6 +1,6 @@
 {
   "name": "dsh-mode-seat",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "A persistent Agent-preset (mode) selector docked in the composer input bar: switch the mode for new tasks, and set the new-task default from any running session. · 对话框常驻 Agent 模式选择条：新任务直接切换模式，运行中的会话可设新任务默认。",
   "keywords": [
@@ -36,6 +36,8 @@
     "dist/client.js",
     "cordis.patch.yml",
     "README.md",
+    "README.zh.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "dsh": {
@@ -46,11 +48,13 @@
       "platform": "web",
       "inject": [
         "@deepseek-ai/dsh-client-locale",
-        "@deepseek-ai/dsh-client-ui-conversation"
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-api-remotes"
       ]
     }
   },
   "peerDependencies": {
-    "@deepseek-ai/cordis": "^4.0.4"
+    "@deepseek-ai/cordis": "~4.1.0"
   }
 }
